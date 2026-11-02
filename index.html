@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" sizes="512x512" href="rsr-arena-favicon.png">
 <link rel="apple-touch-icon" href="rsr-arena-favicon.png">
-<meta name="description" content="Play your favorite PS4 games at RSR Arena in Hathazari. Three PS4 consoles, 43-inch 4K TV, and gaming from ৳50 per hour.">
+<meta name="description" content="Play your favorite PS4 games at RSR Arena in Hathazari. Three PS4 consoles and a 43-inch 4K TV.">
 <meta property="og:title" content="RSR Arena — Gaming Zone">
 <meta property="og:description" content="PS4 gaming with a 43-inch 4K TV in Hathazari.">
 <meta property="og:image" content="rsr-arena-logo.jpg">
@@ -37,18 +37,18 @@ section{padding:45px 0}.section-head{display:flex;justify-content:space-between;
 <div class="eyebrow">Your local gaming destination</div><h1>WELCOME<br><span>RSR ARENA</span></h1>
 <p class="lead">বন্ধুদের নিয়ে আসুন, আপনার পছন্দের গেমটি বেছে নিন এবং RSR Arena-তে কনসোল গেমিংয়ের অভিজ্ঞতা উপভোগ করুন।</p>
 <div class="actions"><a class="btn red" id="bookTop" href="#">Book on WhatsApp ↗</a><a class="btn outline" href="#games">Explore Games</a></div>
-<div class="stats"><div class="stat"><strong>03</strong><span>PlayStation 4 consoles</span></div><div class="stat"><strong id="priceHero">৳50 / hour</strong><span>PS4 with 43″ 4K TV</span></div></div>
+<div class="stats"><div class="stat"><strong>03</strong><span>PlayStation 4 consoles</span></div><div class="stat"><strong id="priceHero"></strong><span>PS4 with 43″ 4K TV</span></div></div>
 </div></section>
 <section id="games"><div class="wrap"><div class="section-head"><div><h2>Choose your game</h2><p>Game list can be updated by the owner.</p></div></div><div class="games" id="gameGrid"></div></div></section>
 <section id="setup"><div class="wrap setup">
 <div class="setup-card"><div class="eyebrow">The setup</div><h2>Big screen. Big fun.</h2><p class="lead">Enjoy gaming on PS4 with a 43″ 4K TV. Perfect for friendly matches, co-op sessions, and competitive gaming.</p><div class="chips"><span class="chip">3 × PS4</span><span class="chip">43″ 4K TV</span><span class="chip">Friends welcome</span></div></div>
 <div class="booking" id="booking"><div class="eyebrow">Ready to play?</div><h3>Book your gaming time</h3><p id="addressText">Nojumiahat, Dream City, Hathazari, Chittagong</p>
-<p><strong id="priceText">Price: ৳50 per hour on PS4</strong></p>
+<p><strong id="priceText"></strong></p>
 <p>Email: <a href="mailto:rsrar enagamingzone@gmail.com">rsrar enagamingzone@gmail.com</a></p>
 <a class="btn blue" id="bookMain" href="#">WhatsApp us ↗</a></div>
 </div></section>
 </main>
-<dialog class="game-dialog" id="gameDialog" aria-labelledby="dialogTitle"><button class="dialog-close" id="dialogClose" type="button" aria-label="Close">×</button><div class="eyebrow">Play at RSR Arena</div><h2 id="dialogTitle">Game</h2><img class="dialog-image" id="dialogImage" alt=""><p class="dialog-price">৳50 <span style="font-size:.85rem;color:var(--muted);font-weight:600">/ 1 hour on PS4</span></p><p class="dialog-note">Play on a 43″ 4K TV. We have 3 PS4 consoles available. Tap below to book your gaming time.</p><div class="dialog-actions"><a class="btn red" id="dialogBook" href="#">Book on WhatsApp ↗</a><button class="btn outline" id="dialogDone" type="button">Close</button></div></dialog>
+<dialog class="game-dialog" id="gameDialog" aria-labelledby="dialogTitle"><button class="dialog-close" id="dialogClose" type="button" aria-label="Close">×</button><div class="eyebrow">Play at RSR Arena</div><h2 id="dialogTitle">Game</h2><img class="dialog-image" id="dialogImage" alt=""><p class="dialog-price"><span id="dialogPrice"></span> <span style="font-size:.85rem;color:var(--muted);font-weight:600">/ 1 hour on PS4</span></p><p class="dialog-note">Play on a 43″ 4K TV. We have 3 PS4 consoles available. Tap below to book your gaming time.</p><div class="dialog-actions"><a class="btn red" id="dialogBook" href="#">Book on WhatsApp ↗</a><button class="btn outline" id="dialogDone" type="button">Close</button></div></dialog>
 <footer><div class="wrap">© <span id="year"></span> RSR Arena · Play fair, have fun.</div></footer>
 
 <script>
@@ -58,7 +58,10 @@ const games=[
 ["RDR2","Action-adventure","rdr2.jpg"],
 ["WWE 2K26","Wrestling","wwe2k26.webp"]
 ];
+let GAME_PRICES={"GTA V":50,"FC 26 1v1":100,"RDR2":50,"WWE 2K26":50};
 const $=id=>document.getElementById(id);
+function priceFor(gameName){return Number(GAME_PRICES[gameName]??50);}
+function updatePriceSummary(){const prices=games.map(game=>priceFor(game[0]));const low=Math.min(...prices),high=Math.max(...prices);const label=low===high?"৳"+low:"৳"+low+"–"+high;$("priceHero").textContent=label+" / hour";$("priceText").textContent="Price: "+label+" per hour on PS4";}
 function wa(gameName=""){const gameText=gameName?` I want to play ${gameName}.`:"";return "https://wa.me/8801606191562?text="+encodeURIComponent(`Hi RSR Arena! I want to book a PS4 gaming session.${gameText} Please let me know availability.`);}
 function render(){
 $("gameGrid").innerHTML=games.map((g,i)=>`<article class="game" tabindex="0" role="button" aria-label="View ${esc(g[0])} price and booking details" data-game="${esc(g[0])}" data-image="${esc(g[2]||"")}"><div class="game-art">${g[2]?`<img src="${esc(g[2])}" alt="${esc(g[0])} cover">`:esc(g[0])}</div><div class="game-info"><h3>${esc(g[0])}</h3><p>${esc(g[1])}</p><p class="game-hint">Click to see price ↗</p></div></article>`).join("");
@@ -66,10 +69,12 @@ $("bookTop").href=wa();$("bookMain").href=wa();
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 const gameDialog=$("gameDialog");
-function openGame(gameName,imagePath){$("dialogTitle").textContent=gameName;const photo=$("dialogImage");photo.src=imagePath;photo.alt=gameName+" cover";$("dialogBook").href=wa(gameName);gameDialog.showModal();}
+function openGame(gameName,imagePath){$("dialogTitle").textContent=gameName;$("dialogPrice").textContent=`৳${priceFor(gameName)}`;const photo=$("dialogImage");photo.src=imagePath;photo.alt=gameName+" cover";$("dialogBook").href=wa(gameName);gameDialog.showModal();}
 $("gameGrid").addEventListener("click",event=>{const card=event.target.closest("[data-game]");if(card)openGame(card.dataset.game,card.dataset.image);});
 $("gameGrid").addEventListener("keydown",event=>{const card=event.target.closest("[data-game]");if(card&&(event.key==="Enter"||event.key===" ")){event.preventDefault();openGame(card.dataset.game,card.dataset.image);}});
 $("dialogClose").addEventListener("click",()=>gameDialog.close());$("dialogDone").addEventListener("click",()=>gameDialog.close());
+updatePriceSummary();
+fetch("prices.json",{cache:"no-store"}).then(response=>{if(!response.ok)throw new Error("Price file unavailable");return response.json();}).then(prices=>{games.forEach(game=>{const value=Number(prices[game[0]]);if(Number.isFinite(value)&&value>0)GAME_PRICES[game[0]]=value;});updatePriceSummary();}).catch(()=>{});
 $("year").textContent=new Date().getFullYear();render();
 </script>
 </body></html>
