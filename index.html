@@ -54,12 +54,12 @@ section{padding:45px 0}.section-head{display:flex;justify-content:space-between;
 <script>
 const games=[
 ["GTA V","Open-world action","gta5.jpg"],
-["FC 26 1v1","1 vs 1 football match","wp15596619.jpg"],
+["FC 26 1v1","1 vs 1 match","wp15596619.jpg"],
 ["RDR2","Action-adventure","rdr2.jpg"],
 ["WWE 2K26","Wrestling","wwe2k26.webp"],
 ["God of War","Action-adventure","godofwar.jpg"]
 ];
-let GAME_PRICES={"GTA V":50,"FC 26 1v1":100,"RDR2":50,"WWE 2K26":50,"God of War":50};
+let GAME_PRICES={"GTA V":50,"FC 26 1v1":50,"RDR2":50,"WWE 2K26":50,"God of War":50};
 const $=id=>document.getElementById(id);
 function priceFor(gameName){return Number(GAME_PRICES[gameName]??50);}
 function updatePriceSummary(){const prices=games.map(game=>priceFor(game[0]));const low=Math.min(...prices),high=Math.max(...prices);const label=low===high?"৳"+low:"৳"+low+"–"+high;$("priceHero").textContent=label+" / hour";$("priceText").textContent="Price: "+label+" per hour on PS4";}
